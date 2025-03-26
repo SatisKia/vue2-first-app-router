@@ -6,11 +6,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    todoList: [] as Todo[]
+    todoList: [] as Todo[],
+    dateType: 1,
+    dispYear: true
   },
   getters: {
     todoList (state) {
       return state.todoList
+    },
+    dateType (state) {
+      return state.dateType
+    },
+    dispYear (state) {
+      return state.dispYear
     }
   },
   mutations: {
@@ -27,12 +35,16 @@ export default new Vuex.Store({
       state.todoList = state.todoList.filter(todo => todo.id !== payload.id)
     },
     done (state, payload: { id: string }) {
-      const todoList = state.todoList.slice()
-      const todo = todoList.find(todo => todo.id === payload.id)
+      const todo = state.todoList.find(todo => todo.id === payload.id)
       if (todo) {
         todo.done = !todo.done
-        state.todoList = todoList
       }
+    },
+    setDateType (state, payload: { dateType: number }) {
+      state.dateType = payload.dateType
+    },
+    setDispYear (state, payload: { dispYear: boolean }) {
+      state.dispYear = payload.dispYear
     }
   },
   actions: {
@@ -50,6 +62,12 @@ export default new Vuex.Store({
     },
     done (context, payload: { id: string }) {
       context.commit('done', payload)
+    },
+    setDateType (context, payload: { dateType: number }) {
+      context.commit('setDateType', payload)
+    },
+    setDispYear (context, payload: { dispYear: boolean }) {
+      context.commit('setDispYear', payload)
     }
   }
 })

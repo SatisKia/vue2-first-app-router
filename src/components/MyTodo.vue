@@ -51,6 +51,8 @@ export default Vue.extend({
           }
         })
       }
+      this.$store.dispatch('setDateType', { dateType: cookie.getNumber('dateType', 1) })
+      this.$store.dispatch('setDispYear', { dispYear: cookie.getBool('dispYear', true) })
     },
     saveData: function () {
       console.log('saveData')
@@ -92,6 +94,7 @@ export default Vue.extend({
   },
   computed: {
     sortedTodo: function (): Todo[] {
+      // 算出プロパティではデータを直接変更することができないため、sliceで配列をコピー
       const todoList = this.$store.getters.todoList.slice()
       return todoList.sort((a: Todo, b: Todo) => {
         return b.date.getTime() - a.date.getTime()
